@@ -1,0 +1,77 @@
+﻿
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script crossorigin="anonymous"
+            src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        #webchat {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="webchat" role="main"></div>
+    <script>
+
+
+        //mask
+        const store = window.WebChat.createStore(
+
+            {},
+            ({ dispatch }) => next => action => {
+                console.log("Action : ", action);
+                if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
+                    //var creditcardnumner = ' ';
+                    // Edit text when user sends message
+
+                    if (action.payload.text.match(/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/g)) {
+                        creditcardnumner = action.payload.text;
+                        action.payload.text = action.payload.text.split('').map(_ => 'X').join('');
+
+                    }
+
+                    if (action.payload.text.match(/\b4[0-9]{12}(?:[0-9]{3})?\b./igm)) {
+
+                        creditcardnumner = action.payload.text; action.payload.text = action.payload.text.replace(/\b4[0-9]{12}(?:[0-9]{3})?\b./igm, "XXXX XXXX XXXX XXXX");
+                        // action.payload.text = action.payload.text.split('').map(_ => 'X').join('');
+                    }
+                    else {
+                        action.payload.text = action.payload.text;
+                        action.payload.text.value  = "123123";
+                        
+                    }
+                    //action.payload.text = creditcardnumner;
+                }
+                return next(action);
+            }
+        );
+
+        window.WebChat.renderWebChat(
+            {
+                directLine: window.WebChat.createDirectLine({
+                    token: '<Directline Secret>'
+                }),
+                store,
+                userID: 'YOUR_USER_ID',
+                username: 'Web Chat User',
+                locale: 'en-US',
+                botAvatarInitials: 'WC',
+                userAvatarInitials: 'WW'
+            },
+            document.getElementById('webchat')
+        );
+    </script>
+</body>
+</html>
