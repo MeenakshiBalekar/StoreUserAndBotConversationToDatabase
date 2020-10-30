@@ -1,8 +1,6 @@
-﻿# Prompt users for input
+﻿# Save user and Bot converasation to CosmoDB database
 
-This sample demonstrates how to create your own prompts with an ASP.Net Core 2 bot.
-The bot maintains conversation state to track and direct the conversation and ask the user questions.
-The bot maintains user state to track the user's answers.
+This sample demonstrates how to store user and bot conversation to Database and display the same back as an echo. The input from user can also be an attachmnet which will be displayed back as echo
 
 ## Further reading
 
